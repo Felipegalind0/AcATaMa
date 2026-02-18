@@ -33,8 +33,10 @@ from AcATaMa.gui.sampling_design_window import SamplingDesignWindow
 from AcATaMa.utils.qgis_utils import unload_layer
 from AcATaMa.gui.sampling_report import SamplingReport
 
-# Initialize Qt resources
-from . import resources_rc
+try:
+    from . import resources_rc
+except ImportError:
+    pass
 
 
 class AcATaMa(object):
