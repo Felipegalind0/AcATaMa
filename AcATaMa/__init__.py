@@ -29,8 +29,6 @@ def pre_init_plugin():
     if os.path.isdir(extra_libs_path):
         # add to python path
         site.addsitedir(extra_libs_path)
-        if extra_libs_path not in sys.path:
-            sys.path.insert(0, extra_libs_path)
         # pkg_resources doesn't listen to changes on sys.path;
         # notify it if available (setuptools may be absent on Python >= 3.12)
         try:
