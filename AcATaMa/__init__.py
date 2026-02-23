@@ -20,8 +20,8 @@
  This script initializes the plugin, making it known to QGIS.
 """
 import os
+import sys
 import site
-import pkg_resources
 
 
 def pre_init_plugin():
@@ -29,8 +29,15 @@ def pre_init_plugin():
     if os.path.isdir(extra_libs_path):
         # add to python path
         site.addsitedir(extra_libs_path)
-        # pkg_resources doesn't listen to changes on sys.path.
-        pkg_resources.working_set.add_entry(extra_libs_path)
+        if extra_libs_path not in sys.path:
+            sys.path.insert(0, extra_libs_path)
+        # pkg_resources doesn't listen to changes on sys.path;
+        # notify it if available (setuptools may be absent on Python >= 3.12)
+        try:
+            import pkg_resources
+            pkg_resources.working_set.add_entry(extra_libs_path)
+        except ImportError:
+            pass
 
 
 # noinspection PyPep8Naming
